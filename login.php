@@ -44,7 +44,7 @@ if(isset($_POST['submit'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>PixelForge</title>
+   <title>Kamuning Isda Supersellers</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -67,18 +67,27 @@ if(isset($message)){
    }
 }
 ?>
-   
+
 <div class="form-container">
 
    <form action="" method="post">
-      <h3>Login</h3>
+      <h3>Kamuning Isda Supersellers</h3>
       <input type="email" name="email" placeholder="EMAIL" required class="box">
-      <input type="password" name="password" placeholder="PASSWORD" required class="box">
+      
+      <!-- Password field with toggle option -->
+      <div class="password-container">
+         <input type="password" name="password" placeholder="PASSWORD" required class="box" id="password">
+         <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+      </div>
+      
       <input type="submit" name="submit" value="LOGIN" class="btn">
       <p>DON'T HAVE AN ACCOUNT YET? <a href="register.php">REGISTER</a></p>
    </form>
 
 </div>
+
+<!-- Link to external JS file -->
+<script src="js/script.js"></script>
 
 </body>
 </html>

@@ -8,7 +8,7 @@ if(isset($_POST['submit'])){
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
    $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
-   $user_type = $_POST['user_type'];
+   $user_type = 'user';
 
    $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email' AND password = '$pass'") or die('query failed');
 
@@ -45,8 +45,6 @@ if(isset($_POST['submit'])){
 </head>
 <body>
 
-
-
 <?php
 if(isset($message)){
    foreach($message as $message){
@@ -66,16 +64,27 @@ if(isset($message)){
       <h3>REGISTER</h3>
       <input type="text" name="name" placeholder="NAME" required class="box">
       <input type="email" name="email" placeholder="EMAIL" required class="box">
-      <input type="password" name="password" placeholder="PASSWORD" required class="box">
-      <input type="password" name="cpassword" placeholder="CONFIRM YOUR PASSWORD" required class="box">
-      <select name="user_type" class="box">
-         <option value="user">User</option>
-      </select>
+      
+      <!-- Password field with toggle option -->
+      <div class="password-container">
+         <input type="password" name="password" placeholder="PASSWORD" required class="box" id="password">
+         <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+      </div>
+
+      <!-- Confirm Password field with toggle option -->
+      <div class="password-container">
+         <input type="password" name="cpassword" placeholder="CONFIRM YOUR PASSWORD" required class="box" id="confirmPassword">
+         <i class="fa fa-eye" id="toggleConfirmPassword" style="cursor: pointer;"></i>
+      </div>
+      
       <input type="submit" name="submit" value="REGISTER" class="btn">
       <p>ALREADY HAVE AN ACCOUNT? <a href="login.php">LOGIN</a></p>
    </form>
 
 </div>
+
+<!-- Link to external JS file -->
+<script src="js/script.js"></script>
 
 </body>
 </html>

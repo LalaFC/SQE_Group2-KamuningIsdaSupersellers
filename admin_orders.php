@@ -11,12 +11,10 @@ if(!isset($admin_id)){
 }
 
 if(isset($_POST['update_order'])){
-
    $order_update_id = $_POST['order_id'];
    $update_payment = $_POST['update_payment'];
    mysqli_query($conn, "UPDATE `orders` SET payment_status = '$update_payment' WHERE id = '$order_update_id'") or die('query failed');
    $message[] = 'payment status has been updated!';
-
 }
 
 if(isset($_GET['delete'])){
@@ -50,51 +48,66 @@ if(isset($_GET['delete'])){
 
    <h1 class="title">Placed Orders</h1>
 
-   <div class="box-container">
-      <?php
-      $select_orders = mysqli_query($conn, "SELECT * FROM `orders`") or die('query failed');
-      if(mysqli_num_rows($select_orders) > 0){
-         while($fetch_orders = mysqli_fetch_assoc($select_orders)){
-      ?>
-      <div class="box">
-         <p> USER ID : <span><?php echo $fetch_orders['user_id']; ?></span> </p>
-         <p> PLACED ON : <span><?php echo $fetch_orders['placed_on']; ?></span> </p>
-         <p> NAME : <span><?php echo $fetch_orders['name']; ?></span> </p>
-         <p> NUMBER : <span><?php echo $fetch_orders['number']; ?></span> </p>
-         <p> EMAIL : <span><?php echo $fetch_orders['email']; ?></span> </p>
-         <p> ADDRESS : <span><?php echo $fetch_orders['address']; ?></span> </p>
-         <p> TOTAL PRODUCTS : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-         <p> TOTAL PRICE : <span>PHP <?php echo $fetch_orders['total_price']; ?>/-</span> </p>
-         <p> PAYMENT METHOD : <span><?php echo $fetch_orders['method']; ?></span> </p>
-         <form action="" method="post">
-            <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">
-            <select name="update_payment">
-               <option value="" selected disabled><?php echo $fetch_orders['payment_status']; ?></option>
-               <option value="Pending">Pending</option>
-               <option value="Completed">COMPLETED!</option>
-            </select>
-            <input type="submit" value="update" name="update_order" class="option-btn">
-            <a href="admin_orders.php?delete=<?php echo $fetch_orders['id']; ?>" onclick="return confirm('Delete this Order?');" class="delete-btn">delete</a>
-         </form>
-      </div>
-      <?php
+   <table class = "order-table">
+      <thead>
+         <tr>
+            <th>User ID</th>
+            <th>Placed On</th>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Total Products</th>
+            <th>Total Price</th>
+            <th>Payment Method</th>
+            <th>Payment Status</th>
+            <th>Action</th>
+         </tr>
+      </thead>
+      <tbody>
+         <?php
+         $select_orders = mysqli_query($conn, "SELECT * FROM `orders`") or die('query failed');
+         if(mysqli_num_rows($select_orders) > 0){
+            while($fetch_orders = mysqli_fetch_assoc($select_orders)){
+         ?>
+         <tr>
+            <td><?php echo $fetch_orders['user_id']; ?></td>
+            <td><?php echo $fetch_orders['placed_on']; ?></td>
+            <td><?php echo $fetch_orders['name']; ?></td>
+            <td><?php echo $fetch_orders['number']; ?></td>
+            <td><?php echo $fetch_orders['email']; ?></td>
+            <td><?php echo $fetch_orders['address']; ?></td>
+            <td><?php echo $fetch_orders['total_products']; ?></td>
+            <td>PHP <?php echo $fetch_orders['total_price']; ?></td>
+            <td><?php echo $fetch_orders['method']; ?></td>
+            <td>
+               <form action="" method="post" style="display:inline;">
+                  <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">
+                  <select name="update_payment">
+                     <option value="" selected disabled><?php echo $fetch_orders['payment_status']; ?></option>
+                     <option value="Pending">Pending</option>
+                     <option value="Completed">Completed</option>
+                  </select>
+                  <input type="submit" value="update" name="update_order" class="option-btn">
+               </form>
+            </td>
+            <td>
+               <a href="admin_orders.php?delete=<?php echo $fetch_orders['id']; ?>" 
+                  onclick="return confirm('Delete this Order?');" class="delete-btn">
+                  Delete
+               </a>
+            </td>
+         </tr>
+         <?php
+            }
+         } else {
+            echo '<tr><td colspan="11" class="empty">No orders found.</td></tr>';
          }
-      }else{
-         echo '<p class="empty">.....</p>';
-      }
-      ?>
-   </div>
+         ?>
+      </tbody>
+   </table>
 
 </section>
-
-
-
-
-
-
-
-
-
 
 <!-- custom admin js file link  -->
 <script src="js/admin_script.js"></script>

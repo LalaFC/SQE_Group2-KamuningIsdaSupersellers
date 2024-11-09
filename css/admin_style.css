@@ -14,7 +14,7 @@
 }
 
 *{
-   font-family: 'Noto Sans', sans-serif;
+   font-family: 'Cutive Mono', monospace;
    margin:0; padding:0;
    box-sizing: border-box;
    outline: none; border:none;
@@ -46,7 +46,7 @@ html{
 }
 
 body{
-   background-color: var(--light-bg);
+   background-color: rgb(255, 255, 255);
 }
 
 section{
@@ -144,53 +144,59 @@ section{
    }
 }
 
-.header{
+.header {
    position: sticky;
-   top:0;
-   left:0;
-   right:0;
+   top: 0;
+   left: 0;
+   right: 0;
    z-index: 1000;
    background: rgb(2, 48, 81);
    box-shadow: var(--box-shadow);
 }
 
-.header .flex{
+.header .flex {
    display: flex;
-   align-items: center;
+   align-items: center; /* Center items vertically */
    padding: 2rem 1rem;
-   justify-content: space-between;
+   justify-content: space-between; /* Space between logo and navbar */
    position: relative;
-   max-width: 1200px;
-   margin:0 auto;
+   max-width: 1500px;
+   margin: 0 auto;
 }
  
 .header .flex .logo{
-   font-family: 'Press Start 2P', sans-serif;
    position: relative;
    font-size: 2rem;
-   color: wheat;
+   color: rgb(255, 255, 255);
 }
 
 .header .flex .logo span{
    color:var(--purple);
 }
 
-.header .flex .navbar a{
-   margin:0 1rem;
-   font-size: 1.5rem;
-   font-family: 'Press Start 2P', sans-serif;
-   color: wheat;
+.header .flex .navbar {
+   display: flex; /* Ensure it's a flex container */
+   justify-content: center; /* Center the items */
+   align-items: center; /* Align items vertically */
+   width: auto; /* Allow it to take necessary width */
+   background-color: transparent; /* Make background transparent */
 }
 
-.header .flex .navbar a:hover{
-   color:var(--purple);
+.header .flex .navbar a {
+   margin: 0 1rem; /* Adjust margins for spacing */
+   font-size: 2rem;
+   color: rgb(255, 255, 255);
+}
+
+.header .flex .navbar a:hover {
+   color: var(--purple);
 }
 
 .header .flex .icons div{
    margin-left: 1.5rem;
    font-size: 2.5rem;
    cursor: pointer;
-   color: wheat;
+   color: white;
 }
 
 .header .flex .icons div:hover{
@@ -249,8 +255,9 @@ section{
 }
 
 .dashboard .title {
-   font-family: 'Press Start 2P', sans-serif;
-   font-size: 4rem;
+   font-family: 'Cutive Mono', monospace;
+   font-size: 6rem;
+   font-weight: 1000;
 }
 
 .dashboard .box-container{
@@ -282,10 +289,11 @@ section{
    padding:1.5rem;
    background-color: var(--light-bg);
    color:var(--purple);
-   font-size: 1.7rem;
+   font-size: 1.5rem;
    border-radius: .5rem;
    border:var(--border);
 }
+
 
 .add-products form{
    background-color: var(--white);
@@ -503,8 +511,112 @@ section{
    margin-top: 0;
 }
 
+.order-table {
+   width: 100%;
+   border-collapse: collapse;
+}
 
+.order-table thead th {
+   background-color: #f4f4f4;
+   padding: 12px;
+}
 
+.order-table tbody td {
+   border: 1px solid #ddd;
+   padding: 12px;
+   text-align: left;
+}
+
+.order-table tbody tr {
+   transition: background-color 0.2s;
+}
+
+.order-table tbody tr:hover {
+   background-color: #f0f0f0;
+}
+
+.user-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px;
+}
+
+.user-table th, .user-table td {
+   border: 1px solid #ddd;
+   padding: 12px;
+   text-align: left;
+}
+
+.user-table th {
+   background-color: rgb(2, 48, 81); /* Change header background color */
+   color: white; /* Change header text color */
+   font-weight: bold; /* Make header text bold */
+   font-size: 1.8rem; /* Increase header font size */
+}
+
+.user-table td {
+   background-color: #fff; /* Default background color for table cells */
+   transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.user-table tr:nth-child(even) td {
+   background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+.user-table tr:hover td {
+   background-color: #e0e0e0; /* Change background color on hover */
+}
+
+.user-table td a.delete-btn {
+   color: white; /* Button text color */
+   text-decoration: none;
+   display: inline-block;
+   text-align: center;
+   padding: 0.5rem 1rem; /* Adjust padding for buttons */
+   border-radius: 5px;
+   background-color: var(--red); /* Background color for delete button */
+   transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.user-table td a.delete-btn:hover {
+   background-color: darkred; /* Darker color on hover */
+}
+
+.user-table td.action {
+   text-align: center;  /* Center the delete button */
+   vertical-align: middle;
+}
+
+.search-products {
+   text-align: center;
+}
+
+.search-products .box {
+   width: 400px;
+   padding: 10px;
+   border: 2px solid #ccc;
+   border-radius: 5px;
+   outline: none;
+   transition: border-color 0.3s;
+}
+
+.search-products .box:focus {
+   border-color: #007bff;
+}
+
+.search-products .btn {
+   padding: 10px 20px;
+   background-color: (--orange);
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.search-products .btn:hover {
+   background-color: #0056b3;
+}
 
 
 
