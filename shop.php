@@ -25,7 +25,6 @@ if(isset($_POST['add_to_cart'])){
       mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
       $message[] = 'Product added to cart!';
    }
-
 }
 
 ?>
@@ -55,42 +54,40 @@ if(isset($_POST['add_to_cart'])){
 </div>
 
 <section class="products">
-
    <h1 class="title">Latest Products</h1>
 
    <div class="box-container">
-
       <?php  
-         $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-         if(mysqli_num_rows($select_products) > 0){
-            while($fetch_products = mysqli_fetch_assoc($select_products)){
+      // Fetch products from the database with supplier names
+      $select_products = mysqli_query($conn, "
+         SELECT products.*, suppliers.name AS supplier_name 
+         FROM products 
+         LEFT JOIN suppliers ON products.supplier = suppliers.id
+      ") or die('query failed');
+
+      if(mysqli_num_rows($select_products) > 0){
+         while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
-     <form action="" method="post" class="box">
-      <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
-      <div class="name"><?php echo $fetch_products['name']; ?></div>
-      <div class="price">PHP <?php echo $fetch_products['price']; ?></div>
-      <input type="number" min="1" name="product_quantity" value="1" class="qty">
-      <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
-      <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
-      <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
-      <input type="submit" value="add to cart" name="add_to_cart" class="btn">
-     </form>
+      <form action="" method="post" class="box">
+         <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+         <div class="name"><?php echo $fetch_products['name']; ?></div>
+         <div class="price">₱<?php echo $fetch_products['price']; ?></div>
+         <div class="supplier-name"><?php echo $fetch_products['supplier_name']; ?></div>
+
+         <input type="number" min="1" name="product_quantity" value="1" class="qty">
+         <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
+         <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
+         <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
+         <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+      </form>
       <?php
+            }
+         } else {
+            echo '<p class="empty">No products available</p>';
          }
-      }else{
-         echo '<p class="empty">.....</p>';
-      }
       ?>
    </div>
-
 </section>
-
-
-
-
-
-
-
 
 <?php include 'footer.php'; ?>
 

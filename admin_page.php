@@ -50,7 +50,7 @@ if(!isset($admin_id)){
                };
             };
          ?>
-         <h3>PHP <?php echo $total_pendings; ?>/-</h3>
+         <h3>PHP <?php echo $total_pendings; ?></h3>
          <p>TOTAL PENDINGS</p>
       </div>
 
@@ -65,8 +65,8 @@ if(!isset($admin_id)){
                };
             };
          ?>
-         <h3>PHP <?php echo $total_completed; ?>/-</h3>
-         <p>COMPLETED PAYMENTS</p>
+         <h3>PHP <?php echo $total_completed; ?></h3>
+         <p>TOTAL COMPLETED PAYMENTS</p>
       </div>
 
       <div class="box">

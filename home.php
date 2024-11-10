@@ -52,8 +52,7 @@ if(isset($_POST['add_to_cart'])){
 <section class="home">
 
    <div class="content">
-      <h3>Thousands of Pixel Arts and Creators, all in one site.</h3>
-      <p>Artists from diverse corners of the globe gather here to engage in collaborative endeavors. Your presence is eagerly anticipated.</p>
+      <h3>Hundreds of fishes, all in one site.</h3>
       <a href="about.php" class="white-btn">LEARN MORE</a>
    </div>
 
@@ -73,12 +72,10 @@ if(isset($_POST['add_to_cart'])){
      <form action="" method="post" class="box">
       <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
       <div class="name"><?php echo $fetch_products['name']; ?></div>
-      <div class="price">PHP <?php echo $fetch_products['price']; ?></div>
-      <input type="number" min="1" name="product_quantity" value="1" class="qty">
+      <div class="price">₱<?php echo $fetch_products['price']; ?></div>
       <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
       <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
       <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
-      <input type="submit" value="add to cart" name="add_to_cart" class="btn">
      </form>
       <?php
          }
@@ -99,12 +96,12 @@ if(isset($_POST['add_to_cart'])){
    <div class="flex">
 
       <div class="image">
-         <img src="css/spellbook.gif" alt="">
+         <img src="css/deadFish.gif" alt="">
       </div>
 
       <div class="content">
          <h3>About Us</h3>
-         <p>We are a website catered for pixel artists, hobbyists, or just basically everyone! Click the button to know more about us.</p>
+         <p>We sell all kinds of fish, whether it is a regular or a premium kind Shop with us now!</p>
          <a href="about.php" class="btn">READ MORE</a>
       </div>
 
@@ -116,7 +113,7 @@ if(isset($_POST['add_to_cart'])){
 
    <div class="content">
       <h3>HAVE ANY QUESTIONS?</h3>
-      <p>Do you have any questions, clarifications, or any violent reactions? Reach to us by pressing the button below.</p>
+      <p>Do you think that we did not serve you a high quality product? Feel free to send us a message!</p>
       <a href="contact.php" class="white-btn">CONTACT US</a>
    </div>
 

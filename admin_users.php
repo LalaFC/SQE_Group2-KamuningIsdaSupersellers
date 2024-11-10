@@ -41,32 +41,42 @@ if(isset($_GET['delete'])){
 
    <h1 class="title"> User Accounts </h1>
 
-   <div class="box-container">
-      <?php
-         $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');
-         while($fetch_users = mysqli_fetch_assoc($select_users)){
-      ?>
-      <div class="box">
-         <p> User ID : <span><?php echo $fetch_users['id']; ?></span> </p>
-         <p> Username : <span><?php echo $fetch_users['name']; ?></span> </p>
-         <p> Email : <span><?php echo $fetch_users['email']; ?></span> </p>
-         <p> User Type : <span style="color:<?php if($fetch_users['user_type'] == 'Admin'){ echo 'var(--orange)'; } ?>"><?php echo $fetch_users['user_type']; ?></span> </p>
-         <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('delete this user?');" class="delete-btn">delete user</a>
-      </div>
-      <?php
-         };
-      ?>
-   </div>
+   <table class="user-table">
+      <thead>
+         <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>User Type</th>
+            <th>Action</th>
+         </tr>
+      </thead>
+      <tbody>
+         <?php
+            $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');
+            while($fetch_users = mysqli_fetch_assoc($select_users)){
+         ?>
+         <tr>
+            <td><?php echo $fetch_users['id']; ?></td>
+            <td><?php echo $fetch_users['name']; ?></td>
+            <td><?php echo $fetch_users['email']; ?></td>
+            <td style="color:<?php if($fetch_users['user_type'] == 'Admin'){ echo 'var(--orange)'; } ?>">
+               <?php echo $fetch_users['user_type']; ?>
+            </td>
+            <td class= "action">
+               <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" 
+                  onclick="return confirm('delete this user?');" class="delete-btn">
+                  Delete
+               </a>
+            </td>
+         </tr>
+         <?php
+            };
+         ?>
+      </tbody>
+   </table>
 
 </section>
-
-
-
-
-
-
-
-
 
 <!-- custom admin js file link  -->
 <script src="js/admin_script.js"></script>

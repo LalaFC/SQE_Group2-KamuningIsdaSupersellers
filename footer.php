@@ -22,8 +22,8 @@
          <h3>contact info</h3>
          <p> <i class="fas fa-phone"></i> +639987654321 </p>
          <p> <i class="fas fa-phone"></i> +639123456789 </p>
-         <p> <i class="fas fa-envelope"></i> pixel.forge@gmail.com </p>
-         <p> <i class="fas fa-map-marker-alt"></i> Manila, Philippines </p>
+         <p> <i class="fas fa-envelope"></i> kiss@gmail.com </p>
+         <p> <i class="fas fa-map-marker-alt"></i> QC Port, Philippines </p>
       </div>
 
       <div class="box">
@@ -36,6 +36,6 @@
 
    </div>
 
-   <p class="credit"> &copy; Copyright  @ <?php echo date('Y'); ?> by <span>Miguel Angelo Malsi</span> </p>
+   <p class="credit"> &copy; Copyright  @ <?php echo date('Y'); ?> by <span>Cabradilla, Malsi, Ramos, Operio</span> </p>
 
 </section>

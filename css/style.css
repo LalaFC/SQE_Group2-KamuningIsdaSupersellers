@@ -13,7 +13,7 @@
 }
 
 *{
-   font-family: 'Noto Sans', sans-serif;
+   font-family: 'Cutive Mono', monospace;
    margin:0; padding:0;
    box-sizing: border-box;
    outline: none; border:none;
@@ -22,7 +22,7 @@
 }
 
 *::selection{
-   background-color: var(--purple);
+   background-color: var(--white);
    color:var(--white);
 }
 
@@ -55,10 +55,6 @@ section{
    background-color: var(--white);
    color:var(--red);
    font-size: 2rem;
-}
-
-body {
-   background: rgb(1, 28, 47);
 }
 
 .message{
@@ -101,30 +97,36 @@ body {
 .btn,
 .option-btn,
 .delete-btn,
-.white-btn{
+.white-btn {
    display: inline-block;
    margin-top: 1rem;
-   padding:1rem 3rem;
+   padding: 1rem 3rem;
    cursor: pointer;
-   color:var(--white);
+   color: var(--white); /* Keep text color white */
    font-size: 1.8rem;
    border-radius: .5rem;
    text-transform: capitalize;
+   background-color: rgb(16, 94, 184); /* Set background color to blue */
 }
 
 .btn:hover,
 .option-btn:hover,
-.delete-btn:hover{
-   background-color: var(--black);
+.delete-btn:hover,
+.white-btn:hover {
+   background-color: darkblue; /* Darker blue on hover */
 }
 
-.white-btn,
-.btn{
-   background-color: var(--purple);
+/* If you want to keep the white button distinct, you can adjust it separately */
+.white-btn {
+   background-color: blue; /* Set background color to blue */
+}
+
+.white-btn:hover {
+   background-color: lightblue; /* Change hover color for white button */
 }
 
 .option-btn{
-   background-color: var(--orange);
+   background-color: rgb(0, 173, 130);
 }
 
 .delete-btn{
@@ -175,9 +177,21 @@ body {
    }
 }
 
+.password-container {
+   position: relative;
+   display: flex;
+   align-items: center;
+}
+
+.password-container .fa-eye, .password-container .fa-eye-slash {
+   position: absolute;
+   right: 10px;
+   cursor: pointer;
+}
+
 .form-container{
    min-height: 100vh;
-   background: url(Wave.png) no-repeat;
+   background: url(Fisherman.png) no-repeat;
    background-position: center;
    background-size: cover;
    display: flex;
@@ -188,9 +202,10 @@ body {
 
 .form-container form{
    font-family: 'Noto Sans', sans-serif;
+   text-transform: uppercase;
    padding:2rem;
    width: 50rem;
-   border-radius: 2rem;
+   border-radius: 1rem;
    box-shadow: var(--box-shadow);
    border: none;
    background-color: transparent;
@@ -199,10 +214,8 @@ body {
 }
 
 .form-container form h3{
-   font-family: 'Press Start 2P', sans-serif;
-   font-size: 3.5rem;
+   font-size: 3rem;
    margin-bottom: 1rem;
-   text-transform: uppercase;
    color: rgb(1, 28, 47);
 }
 
@@ -233,7 +246,7 @@ body {
 }
 
 .header .header-2{
-   background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), url(Rainbow\ Header.jpg);
+   background: black;
    background-size: contain;
    box-shadow: var(--box-shadow);
 }
@@ -244,27 +257,35 @@ body {
    z-index: 1000;
 }
 
-.header .header-2 .flex{
-   padding: 2rem;
+.header .header-2 .flex {
    display: flex;
    align-items: center;
    justify-content: space-between;
-   max-width: 1200px;
-   margin:0 auto;
+   max-width: 1500px;
+   margin: 0 auto;
    position: relative;
+   padding: 15px 0; /* Add space above and below the entire flex container */
 }
+
+.header .header-2 .flex .navbar {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   line-height: 2; /* Vertically center the items while keeping space */
+}
+
 
 .header .header-2 .flex .logo{
    font-size: 2rem;
-   font-family: 'Press Start 2P', sans-serif;
-   color: wheat;
+   text-transform: uppercase;
+   color: rgb(163, 170, 255);
 }
 
 .header .header-2 .flex .navbar a{
    margin:0 1rem;
    font-size: 2rem;
-   font-weight: 500;
-   color: wheat;
+   font-weight: 100;
+   color: rgb(163, 170, 255);
 }
 
 .header .header-2 .flex .navbar a:hover{
@@ -274,7 +295,7 @@ body {
 
 .header .header-2 .flex .icons > *{
    font-size: 2.5rem;
-   color: wheat;
+   color: rgb(163, 170, 255);;
    cursor: pointer;
    margin-left: 1.5rem;
 }
@@ -337,30 +358,26 @@ body {
 }
 
 .home .content h3{
-   font-size: 5.5rem;
+   font-size: 5rem;
    color:var(--white);
    text-transform: uppercase;
 }
 
-.home .content a {
-   font-family: 'Press Start 2P', sans-serif;
-}
-
 .home .content p{
-   font-size:1.8rem;
-   color:var(--light-white);
-   padding:1rem 0;
+   font-size: 1.8rem;
+   color: var(--light-white);
+   padding: 1rem 0;
    line-height: 1.5;
 }
 
 .products h1 {
-   font-family: 'Press Start 2P', sans-serif;
+   font-family: 'Cutive Mono', monospace;
    font-size: 10rem;
    font-weight: 1000;
-   color: wheat;
 }
 
 .products .box-container{
+   background-color: (--white);
    max-width: 1200px;
    margin:0 auto;
    display: grid;
@@ -370,14 +387,20 @@ body {
    justify-content: center;
 }
 
-.products .box-container .box{
+.products .box-container .box {
    border-radius: .5rem;
-   background-color: var(--white);
+   background-color: #fafafa; /* Light gray background */
    box-shadow: var(--box-shadow);
-   padding:2rem;
+   padding: 2rem;
    text-align: center;
-   border:var(--border);
+   border: 3px solid rgb(73, 56, 56); /* Light gray border */
    position: relative;
+   transition: all 0.3s ease;
+}
+
+.products .box-container .box:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .products .box-container .box .image{
@@ -400,6 +423,14 @@ body {
    font-size: 2rem;
 }
 
+.products .box-container .box select {
+   width: 100%;
+   padding: 1.2rem 1.4rem;
+   border: var(--border);
+   margin: 1rem 0;
+   font-size: 2rem;
+}
+
 .products .box-container .box .price{
    position: absolute;
    top:1rem; left:1rem;
@@ -411,8 +442,9 @@ body {
 }
 
 .products .load-more a {
-   font-family: 'Press Start 2P', sans-serif;
+   font-family: 'Cutive Mono', monospace;
 }
+
 
 .about .flex{
    max-width: 1200px;
@@ -430,15 +462,18 @@ body {
    width: 100%;
 }
 
-.about .flex .content{
-   flex:1 1 40rem;
-   padding:2rem;
+.about .flex .content {
+   flex: 1 1 40rem;
+   padding: 2rem;
    background-color: var(--light-bg);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
 }
 
 .about .flex .content h3{
-   font-family: 'Press Start 2P', sans-serif;
-   font-size: 2.5rem;
+   font-size: 3rem;
    color:var(--black);
    text-transform: uppercase;
 }
@@ -446,14 +481,91 @@ body {
 .about .flex .content p{
    padding:1rem 0;
    line-height: 2;
-   font-size: 1.5rem;
-   text-align: justify;
+   font-size: 1.7rem;
    color:var(--light-color);
 }
 
 .about .flex .content a {
-   font-family: 'Press Start 2P', sans-serif;
+   font-family: 'Cutive Mono', monospace;
+   margin-top: 1rem;
 }
+
+.table-container {
+   max-width: 800px;
+   margin: 20px auto;
+   height: 296px; /* Fixed height for scrollable area */
+   border-radius: 8px;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   background-color: #ffffff;
+   border: 3.5px solid black; /* Black border for the container */
+   overflow-y: auto; /* Allow vertical scrolling */
+   overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.table-container::-webkit-scrollbar {
+   width: 6px;
+   background-color: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+   background-color: var(--purple);
+   border-radius: 4px;
+   border: 1px solid #ffffff;
+}
+
+.table-container::-webkit-scrollbar-track {
+   border-radius: 0 16px 16px 0;
+}
+
+table {
+   width: 100%;
+   border-collapse: collapse;
+   margin: 0; /* Remove any default margins */
+}
+
+th, td {
+   padding: 15px;
+   text-align: center;
+   border-bottom: 1px solid black; /* Black border for data cells */
+}
+
+th {
+   background-color: #4CAF50;
+   color: white;
+   font-size: 1.2em;
+   border: 2px solid black; /* Black border for header cells */
+}
+
+tbody tr {
+   transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+   background-color: #f1f1f1;
+}
+
+tbody tr:nth-child(even) {
+   background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(odd) {
+   background-color: #ffffff;
+}
+
+tbody tr:last-child td {
+   border-bottom: none;
+}
+
+@media (max-width: 768px) {
+   table {
+       font-size: 14px;
+   }
+   
+   th, td {
+       padding: 10px;
+   }
+}
+
 
 .home-contact{
    background-color: var(--black);
@@ -479,7 +591,7 @@ body {
 }
 
 .home-contact .content a{
-   font-family: 'Press Start 2P', sans-serif;
+   font-family: 'Cutive Mono', monospace;
 }
 
 .reviews{
@@ -537,11 +649,6 @@ body {
    font-size: 2rem;
    color:var(--black);
    margin-top: 1rem;
-}
-
-.authors h1{
-   font-family: 'Press Start 2P', sans-serif;
-   color: wheat;
 }
 
 .authors .box-container{
@@ -604,7 +711,7 @@ body {
 
 .contact form{
    margin:0 auto;
-   background: url(Pixelated.png);
+   background: var(--black);
    background-size: contain;
    border-radius: .5rem;
    border: none;
@@ -615,11 +722,11 @@ body {
 }
 
 .contact form h3{
-   font-family: 'Press Start 2P', sans-serif;
-   font-size: 2.5rem;
+   font-family: 'Cutive Mono', monospace;
+   font-size: 3.5rem;
    text-transform: uppercase;
    margin-bottom: 1rem;
-   color: rgb(1, 28, 47);
+   color: var(--light-bg);
 }
 
 .contact form .box{
@@ -676,7 +783,7 @@ body {
 
 .shopping-cart .box-container .box img{
    height: 30rem;
-   width: 25rem;
+   width: 100%;
 }
 
 .shopping-cart .box-container .box .name{
@@ -923,6 +1030,12 @@ body {
    color:var(--purple);
 }
 
+.supplier-name {
+   font-size: 16px;
+   color: #007BFF;
+   font-weight: 800;
+   margin-left: 5px;
+}
 
 
 
