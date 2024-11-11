@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2024 at 10:46 AM
+-- Generation Time: Nov 11, 2024 at 01:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -83,49 +83,9 @@ CREATE TABLE `products` (
   `name` varchar(100) NOT NULL,
   `price` int(100) NOT NULL,
   `image` varchar(100) NOT NULL,
-  `supplier` varchar(255) NOT NULL
+  `supplier` varchar(255) NOT NULL,
+  `inventory` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`id`, `name`, `price`, `image`, `supplier`) VALUES
-(90, 'Tilapia', 345, 'Tilapia.jpg', '8'),
-(91, 'Yellowfin Tuna', 450, 'Tuna-Yellow-Fin.jpg', '20'),
-(93, 'Bangus', 430, 'Bangus.jpg', '16'),
-(94, 'Lapu Lapu', 235, 'Lapu-Lapu-Red.jpg', '15'),
-(95, 'Tamban', 330, 'Tamban.jpg', '18'),
-(96, 'Anchovies', 290, 'Dilis.jpg', '22'),
-(97, 'Red Snapper', 745, 'Red Snapper.jpg', '45'),
-(98, 'Tulingan', 400, 'Tulingan.jpg', '52'),
-(99, 'Galunggong', 220, 'Galunggong.jpg', '10'),
-(100, 'Dalagang Bukid', 400, 'Dalagang-Bukid.jpg', '68'),
-(101, 'Slipmouth Fish', 425, 'Sapsap.jpg', '17'),
-(102, 'Hasahasa', 300, 'Hasahasa.jpg', '13'),
-(103, 'Barramundi', 1000, 'Apahap.jpg', '21'),
-(104, 'Pompano', 600, 'Pompano.jpg', '9'),
-(105, 'Threadfin Bream', 500, 'Bisugo.jpg', '12'),
-(106, 'Tanigue Steak Cut', 800, 'Tanigue-Steak-Cut.jpg', '22'),
-(107, 'Shrimps', 800, 'Shrimps.jpg', '8'),
-(108, 'Alumahan', 560, 'Alumahan.jpg', '64'),
-(109, 'Salmon Fillet', 1300, 'Salmon-Fillet.jpg', '25'),
-(111, 'Caviar', 5500, 'Caviar.jpg', '62'),
-(112, 'Pusit', 600, 'Pusit.jpg', '47'),
-(113, 'Sugpo', 1100, 'Sugpo.jpg', '24'),
-(114, 'Oyster', 300, 'Talaba.jpg', '22'),
-(115, 'Mussels', 150, 'Tahon.jpg', '20'),
-(116, 'Crab', 900, 'Crab.jpg', '21'),
-(117, 'Mud Crab', 750, 'Mud Crab.jpg', '26'),
-(118, 'Blue Marlin Cut', 650, 'Blue Marlin.jpg', '9'),
-(119, 'Tawilis', 350, 'Tawilis.jpg', '59'),
-(120, 'Tinapa Salinas', 435, 'Tinapa-Salinas.jpg', '42'),
-(121, 'Tuyo Salinas', 400, 'Tuyo-Salinas.jpg', '14'),
-(122, 'Labahita', 400, 'Labahita.jpg', '8'),
-(123, 'Jackfish', 700, 'Talakitok.jpg', '10'),
-(124, 'Catfish', 350, 'Catfish.jpg', '25'),
-(125, 'Snail', 200, 'Kuhol.jpg', '25'),
-(126, 'Moonfish', 300, 'Hiwas.jpg', '24');
 
 -- --------------------------------------------------------
 
@@ -229,7 +189,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`) VALUES
 (2, 'Test User', 'test.user@gmail.com', 'ae2b1fca515949e5d54fb22b8ed95575', 'user'),
 (3, 'Boi Bawang', 'bawangboi@stanford.edu.ph', 'c93ccd78b2076528346216b3b2f701e6', 'admin'),
 (4, 'Test User 2', 'test.user2@pmail.com', 'a119e534072584a0ea88cdea4664aecd', 'user'),
-(9, 'supp3', 'supplier1@supp.com', '3367cfa4bfc7dc05bdc65aa7bf8d39ac', 'wholesale');
+(9, 'supp3', 'supplier1@supp.com', '3367cfa4bfc7dc05bdc65aa7bf8d39ac', 'wholesale'),
+(10, 'Patrick Ramos', 'lolol@gmail.com', '8f036369a5cd26454949e594fb9e0a2d', 'admin');
 
 -- --------------------------------------------------------
 
@@ -242,49 +203,50 @@ CREATE TABLE `wholesale` (
   `supplier_id` int(11) NOT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
   `product_id` int(11) NOT NULL,
-  `product_name` varchar(255) DEFAULT NULL
+  `product_name` varchar(255) DEFAULT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `wholesale`
 --
 
-INSERT INTO `wholesale` (`id`, `supplier_id`, `supplier_name`, `product_id`, `product_name`) VALUES
-(64, 8, 'E-Mars Enterprises', 90, 'Tilapia'),
-(65, 20, 'AFOW Marine Product', 91, 'Yellowfin Tuna'),
-(66, 16, 'TGA Foods Corp.', 93, 'Bangus'),
-(67, 15, 'Mica by the Sea', 94, 'Lapu Lapu'),
-(68, 18, 'Akian Food Processing Corp.', 95, 'Tamban'),
-(69, 22, 'Bernas Seafoods Trading', 96, 'Anchovies'),
-(70, 45, 'Doc Peter Foods Corp.', 97, 'Red Snapper'),
-(71, 52, 'Triton Products Corp.', 98, 'Tulingan'),
-(72, 10, 'Amanda’s Marine Products', 99, 'Galunggong'),
-(73, 68, 'Camsur Canning Corp.', 100, 'Dalagang Bukid'),
-(74, 17, 'Aling Ludy’s Seafood Dealer', 101, 'Slipmouth Fish'),
-(75, 13, 'Elite Del Dragon Inc.', 102, 'Hasahasa'),
-(76, 21, 'A. Tung Chingco Manufacturing Corp.', 103, 'Barramundi'),
-(77, 9, 'Korea-Philippines Seafood Processing Complex', 104, 'Pompano'),
-(78, 12, 'Bulacan HJR International Incorporation', 105, 'Threadfin Bream'),
-(79, 22, 'Bernas Seafoods Trading', 106, 'Tanigue Steak Cut'),
-(80, 8, 'E-Mars Enterprises', 107, 'Shrimps'),
-(81, 64, 'Bicol Blue Star Export Corp.', 108, 'Alumahan'),
-(82, 25, 'CMSE Seafoods Trading', 109, 'Salmon Fillet'),
-(83, 62, 'Alenter Food, Inc.', 111, 'Caviar'),
-(84, 47, 'JNCL Ocean Ventures, Inc.', 112, 'Pusit'),
-(85, 24, 'Chen-Kao Marine Corp.', 113, 'Sugpo'),
-(86, 22, 'Bernas Seafoods Trading', 114, 'Oyster'),
-(87, 20, 'AFOW Marine Product', 115, 'Mussels'),
-(88, 21, 'A. Tung Chingco Manufacturing Corp.', 116, 'Crab'),
-(89, 26, 'Eoana Canning and Food Processing Corp.', 117, 'Mud Crab'),
-(90, 9, 'Korea-Philippines Seafood Processing Complex', 118, 'Blue Marlin Cut'),
-(91, 59, 'Chinoy Seafood Exporter and Importer', 119, 'Tawilis'),
-(92, 42, 'Camarines Bigfin Seafoods Trading Inc.', 120, 'Tinapa Salinas'),
-(93, 14, 'Golden Tiger Export Ventures, Inc', 121, 'Tuyo Salinas'),
-(94, 8, 'E-Mars Enterprises', 122, 'Labahita'),
-(95, 10, 'Amanda’s Marine Products', 123, 'Jackfish'),
-(96, 25, 'CMSE Seafoods Trading', 124, 'Catfish'),
-(97, 25, 'CMSE Seafoods Trading', 125, 'Snail'),
-(98, 24, 'Chen-Kao Marine Corp.', 126, 'Moonfish');
+INSERT INTO `wholesale` (`id`, `supplier_id`, `supplier_name`, `product_id`, `product_name`, `image`) VALUES
+(64, 8, 'E-Mars Enterprises', 90, 'Tilapia', 'uploaded_img/Tilapia.jpg'),
+(65, 20, 'AFOW Marine Product', 91, 'Yellowfin Tuna', 'uploaded_img/Tuna-Yellow-Fin.jpg'),
+(66, 16, 'TGA Foods Corp.', 93, 'Bangus', 'uploaded_img/Bangus.jpg'),
+(67, 15, 'Mica by the Sea', 94, 'Lapu Lapu', 'uploaded_img/Lapu-Lapu-Red.jpg'),
+(68, 18, 'Akian Food Processing Corp.', 95, 'Tamban', 'uploaded_img/Tamban.jpg'),
+(69, 22, 'Bernas Seafoods Trading', 96, 'Anchovies', 'uploaded_img/white.jpg'),
+(70, 45, 'Doc Peter Foods Corp.', 97, 'Red Snapper', 'uploaded_img/Red Snapper.jpg'),
+(71, 52, 'Triton Products Corp.', 98, 'Tulingan', 'uploaded_img/Tulingan.jpg'),
+(72, 10, 'Amanda’s Marine Products', 99, 'Galunggong', 'uploaded_img/Galunggong.jpg'),
+(73, 68, 'Camsur Canning Corp.', 100, 'Dalagang Bukid', 'uploaded_img/Dalagang-Bukid.jpg'),
+(74, 17, 'Aling Ludy’s Seafood Dealer', 101, 'Slipmouth Fish', 'uploaded_img/white.jpg'),
+(75, 13, 'Elite Del Dragon Inc.', 102, 'Hasahasa', 'uploaded_img/Hasahasa.jpg'),
+(76, 21, 'A. Tung Chingco Manufacturing Corp.', 103, 'Barramundi', 'uploaded_img/white.jpg'),
+(77, 9, 'Korea-Philippines Seafood Processing Complex', 104, 'Pompano', 'uploaded_img/Pompano.jpg'),
+(78, 12, 'Bulacan HJR International Incorporation', 105, 'Threadfin Bream', 'uploaded_img/white.jpg'),
+(79, 22, 'Bernas Seafoods Trading', 106, 'Tanigue Steak Cut', 'uploaded_img/Tanigue-Steak-Cut.jpg'),
+(80, 8, 'E-Mars Enterprises', 107, 'Shrimps', 'uploaded_img/Shrimp.jpg'),
+(81, 64, 'Bicol Blue Star Export Corp.', 108, 'Alumahan', 'uploaded_img/Alumahan.jpg'),
+(82, 25, 'CMSE Seafoods Trading', 109, 'Salmon Fillet', 'uploaded_img/Salmon-Fillet.jpg'),
+(83, 62, 'Alenter Food, Inc.', 111, 'Caviar', 'uploaded_img/Caviar.jpg'),
+(84, 47, 'JNCL Ocean Ventures, Inc.', 112, 'Pusit', 'uploaded_img/Pusit.jpg'),
+(85, 24, 'Chen-Kao Marine Corp.', 113, 'Sugpo', 'uploaded_img/Sugpo.jpg'),
+(86, 22, 'Bernas Seafoods Trading', 114, 'Oyster', 'uploaded_img/white.jpg'),
+(87, 20, 'AFOW Marine Product', 115, 'Mussels', 'uploaded_img/white.jpg'),
+(88, 21, 'A. Tung Chingco Manufacturing Corp.', 116, 'Crab', 'uploaded_img/Crab.jpg'),
+(89, 26, 'Eoana Canning and Food Processing Corp.', 117, 'Mud Crab', 'uploaded_img/white.jpg'),
+(90, 9, 'Korea-Philippines Seafood Processing Complex', 118, 'Blue Marlin Cut', 'uploaded_img/Blue Marlin.jpg'),
+(91, 59, 'Chinoy Seafood Exporter and Importer', 119, 'Tawilis', 'uploaded_img/Tawilis.jpg'),
+(92, 42, 'Camarines Bigfin Seafoods Trading Inc.', 120, 'Tinapa Salinas', 'uploaded_img/Tinapa-Salinas.jpg'),
+(93, 14, 'Golden Tiger Export Ventures, Inc', 121, 'Tuyo Salinas', 'uploaded_img/Tuyo-Salinas.jpg'),
+(94, 8, 'E-Mars Enterprises', 122, 'Labahita', 'uploaded_img/Labahita.jpg'),
+(95, 10, 'Amanda’s Marine Products', 123, 'Jackfish', 'uploaded_img/white.jpg'),
+(96, 25, 'CMSE Seafoods Trading', 124, 'Catfish', 'uploaded_img/Catfish.jpg'),
+(97, 25, 'CMSE Seafoods Trading', 125, 'Snail', 'uploaded_img/white.jpg'),
+(98, 24, 'Chen-Kao Marine Corp.', 126, 'Moonfish', 'uploaded_img/white.jpg');
 
 --
 -- Indexes for dumped tables
@@ -372,7 +334,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `wholesale`
