@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2024 at 09:56 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 11, 2024 at 10:46 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -228,7 +228,63 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`) VALUES
 (1, 'Miguel Angelo Malsi', 'miguelmalsi04@gmail.com', '0ad8f3b2ce6fe9ca0d8a534b0fb4f37e', 'admin'),
 (2, 'Test User', 'test.user@gmail.com', 'ae2b1fca515949e5d54fb22b8ed95575', 'user'),
 (3, 'Boi Bawang', 'bawangboi@stanford.edu.ph', 'c93ccd78b2076528346216b3b2f701e6', 'admin'),
-(4, 'Test User 2', 'test.user2@pmail.com', 'a119e534072584a0ea88cdea4664aecd', 'user');
+(4, 'Test User 2', 'test.user2@pmail.com', 'a119e534072584a0ea88cdea4664aecd', 'user'),
+(9, 'supp3', 'supplier1@supp.com', '3367cfa4bfc7dc05bdc65aa7bf8d39ac', 'wholesale');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wholesale`
+--
+
+CREATE TABLE `wholesale` (
+  `id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `supplier_name` varchar(255) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wholesale`
+--
+
+INSERT INTO `wholesale` (`id`, `supplier_id`, `supplier_name`, `product_id`, `product_name`) VALUES
+(64, 8, 'E-Mars Enterprises', 90, 'Tilapia'),
+(65, 20, 'AFOW Marine Product', 91, 'Yellowfin Tuna'),
+(66, 16, 'TGA Foods Corp.', 93, 'Bangus'),
+(67, 15, 'Mica by the Sea', 94, 'Lapu Lapu'),
+(68, 18, 'Akian Food Processing Corp.', 95, 'Tamban'),
+(69, 22, 'Bernas Seafoods Trading', 96, 'Anchovies'),
+(70, 45, 'Doc Peter Foods Corp.', 97, 'Red Snapper'),
+(71, 52, 'Triton Products Corp.', 98, 'Tulingan'),
+(72, 10, 'Amanda’s Marine Products', 99, 'Galunggong'),
+(73, 68, 'Camsur Canning Corp.', 100, 'Dalagang Bukid'),
+(74, 17, 'Aling Ludy’s Seafood Dealer', 101, 'Slipmouth Fish'),
+(75, 13, 'Elite Del Dragon Inc.', 102, 'Hasahasa'),
+(76, 21, 'A. Tung Chingco Manufacturing Corp.', 103, 'Barramundi'),
+(77, 9, 'Korea-Philippines Seafood Processing Complex', 104, 'Pompano'),
+(78, 12, 'Bulacan HJR International Incorporation', 105, 'Threadfin Bream'),
+(79, 22, 'Bernas Seafoods Trading', 106, 'Tanigue Steak Cut'),
+(80, 8, 'E-Mars Enterprises', 107, 'Shrimps'),
+(81, 64, 'Bicol Blue Star Export Corp.', 108, 'Alumahan'),
+(82, 25, 'CMSE Seafoods Trading', 109, 'Salmon Fillet'),
+(83, 62, 'Alenter Food, Inc.', 111, 'Caviar'),
+(84, 47, 'JNCL Ocean Ventures, Inc.', 112, 'Pusit'),
+(85, 24, 'Chen-Kao Marine Corp.', 113, 'Sugpo'),
+(86, 22, 'Bernas Seafoods Trading', 114, 'Oyster'),
+(87, 20, 'AFOW Marine Product', 115, 'Mussels'),
+(88, 21, 'A. Tung Chingco Manufacturing Corp.', 116, 'Crab'),
+(89, 26, 'Eoana Canning and Food Processing Corp.', 117, 'Mud Crab'),
+(90, 9, 'Korea-Philippines Seafood Processing Complex', 118, 'Blue Marlin Cut'),
+(91, 59, 'Chinoy Seafood Exporter and Importer', 119, 'Tawilis'),
+(92, 42, 'Camarines Bigfin Seafoods Trading Inc.', 120, 'Tinapa Salinas'),
+(93, 14, 'Golden Tiger Export Ventures, Inc', 121, 'Tuyo Salinas'),
+(94, 8, 'E-Mars Enterprises', 122, 'Labahita'),
+(95, 10, 'Amanda’s Marine Products', 123, 'Jackfish'),
+(96, 25, 'CMSE Seafoods Trading', 124, 'Catfish'),
+(97, 25, 'CMSE Seafoods Trading', 125, 'Snail'),
+(98, 24, 'Chen-Kao Marine Corp.', 126, 'Moonfish');
 
 --
 -- Indexes for dumped tables
@@ -271,6 +327,14 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `wholesale`
+--
+ALTER TABLE `wholesale`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_supplier_product` (`supplier_id`,`product_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -308,7 +372,24 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `wholesale`
+--
+ALTER TABLE `wholesale`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `wholesale`
+--
+ALTER TABLE `wholesale`
+  ADD CONSTRAINT `wholesale_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`),
+  ADD CONSTRAINT `wholesale_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
