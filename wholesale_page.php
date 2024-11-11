@@ -249,9 +249,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 
             <!-- Quantity Button -->
             <div class="add-to-cart-quantity">
-                <button onclick="updateQuantity(this, 'increase', '<?php echo $supplier_name; ?>')">+</button>
-                <span id="quantity-<?php echo $supplier_name; ?>" class="quantity-display">0</span>
                 <button onclick="updateQuantity(this, 'decrease', '<?php echo $supplier_name; ?>')">-</button>
+                <span id="quantity-<?php echo $supplier_name; ?>" class="quantity-display">0</span>
+                <button onclick="updateQuantity(this, 'increase', '<?php echo $supplier_name; ?>')">+</button>
             </div>
 
             <!-- Add to Cart Button inside Box -->
