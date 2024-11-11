@@ -13,8 +13,9 @@ if(!isset($user_id)){
 if(isset($_POST['update_cart'])){
    $cart_id = $_POST['cart_id'];
    $cart_quantity = $_POST['cart_quantity'];
-   $cart_supplier = $_POST['cart_supplier'];
-   mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity', supplier = '$cart_supplier' WHERE id = '$cart_id'") or die('query failed');
+   // Ensure you are updating the supplier ID, not the name
+   $cart_supplier_id = $_POST['cart_supplier_id']; // This should be the supplier ID
+   mysqli_query($conn, "UPDATE `cart` SET quantity = '$cart_quantity', supplier = '$cart_supplier_id' WHERE id = '$cart_id'") or die('query failed');
    $message[] = 'Cart quantity and supplier updated!';
 }
 
@@ -62,51 +63,44 @@ if(isset($_GET['delete_all'])){
    <div class="box-container">
    <?php
       $grand_total = 0;
-      $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+      // Updated SQL query to include supplier name
+      $select_cart = mysqli_query($conn, "
+         SELECT c.*, s.name AS supplier_name 
+         FROM `cart` c 
+         LEFT JOIN `suppliers` s ON c.supplier = s.id 
+         WHERE c.user_id = '$user_id'
+      ") or die('query failed');
       if(mysqli_num_rows($select_cart) > 0){
          while($fetch_cart = mysqli_fetch_assoc($select_cart)){   
    ?>
-   <div class="box">
-      <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('Delete this from cart?');"></a>
-      <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
-      <div class="name"><?php echo $fetch_cart['name']; ?></div>
-      <div class="price">₱ <?php echo $fetch_cart['price']; ?></div>
-      <form action="" method="post" style="display: flex; flex-direction: column; gap: 10px;">
-         <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
-         <div style="width: 100%;">
-            <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>" 
-                  style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
-         </div>
-         <div style="width: 100%;">
-            <select name="cart_supplier" required 
-                  style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
-               <?php
-               // Fetch all suppliers from the database
-               $select_suppliers = mysqli_query($conn, "SELECT * FROM `suppliers`") or die('query failed');
-               if(mysqli_num_rows($select_suppliers) > 0){
-                  while($row = mysqli_fetch_assoc($select_suppliers)){
-                     $selected = ($row['name'] == $fetch_cart['supplier']) ? 'selected' : '';
-                     echo '<option value="'.$row['name'].'" '.$selected.'>'.$row['name'].'</option>';
-                  }
-               }else{
-                  echo '<option value="">No suppliers available</option>';
-               }
-               ?>
-            </select>
-         </div>
-         <input type="submit" name="update_cart" value="update" class="option-btn" 
-               style="width: 100%;">
-      </form>
-      <div class="sub-total"> Sub total : <span>₱<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?></span> </div>
-   </div>
-   <?php
-   $grand_total += $sub_total;
+      <div class="box">
+         <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('Delete this from cart?');"></a>
+         <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
+         <div class="name"><?php echo $fetch_cart['name']; ?></div>
+         <div class="supplier-cart"><?php echo $fetch_cart['supplier']; ?></div> <!-- Displaying supplier name -->
+         <div class="price">₱<?php echo $fetch_cart['price']; ?></div>
+         <form action="" method="post" style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
+            <input type="hidden" name="cart_supplier_id" value="<?php echo $fetch_cart['supplier']; ?>"> <!-- Hidden input for supplier ID -->
+            <div style="width: 100%; display: flex; align-items: center; gap: 10px;">
+               <button type="button" class="qty-btn" onclick="changeCartQuantity(<?php echo $fetch_cart['id']; ?>, -1)">-</button>
+               <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>" 
+                     class="qty" id="cart-quantity-<?php echo $fetch_cart['id']; ?>" readonly style="width: 100%; padding: 10px; font-size: 16px;">
+               <button type="button" class="qty-btn" onclick="changeCartQuantity(<?php echo $fetch_cart['id']; ?>, 1)">+</button>
+            </div>
+            <input type="submit" name="update_cart" value="update" class="option-btn" 
+                  style="width: 100%;">
+         </form>
+         <div class="sub-total"> Sub total : <span>₱<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?></span> </div>
+      </div>
+      <?php
+      $grand_total += $sub_total;
+         }
+      }else{
+         echo '<p class="empty">Your cart is empty.</p>';
       }
-   }else{
-      echo '<p class="empty">...</p>';
-   }
-   ?>
-</div>
+      ?>
+   </div>
 
    <div style="margin-top: 2rem; text-align:center;">
       <a href="cart.php?delete_all" class="delete-btn <?php echo ($grand_total > 1)?'':'disabled'; ?>" onclick="return confirm('Delete all from cart?');">delete all</a>
@@ -121,13 +115,6 @@ if(isset($_GET['delete_all'])){
    </div>
 
 </section>
-
-
-
-
-
-
-
 
 <?php include 'footer.php'; ?>
 
