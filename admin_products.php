@@ -10,18 +10,12 @@ if (!isset($admin_id)) {
     header('location:login.php');
 }
 
-$search_query = '';
-if (isset($_GET['search'])) {
-    $search_query = mysqli_real_escape_string($conn, $_GET['search']);
+// Fetch available suppliers from the suppliers table
+$supplier_query = mysqli_query($conn, "SELECT * FROM `suppliers`") or die('query failed');
+$suppliers = [];
+while ($row = mysqli_fetch_assoc($supplier_query)) {
+    $suppliers[] = $row;
 }
-
-if ($search_query == '') {
-    $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-} else {
-    $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE name LIKE '%$search_query%'") or die('query failed');
-}
-
-$select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE name LIKE '%$search_query%'") or die('query failed');
 
 // Update Product Logic
 if (isset($_POST['update_product'])) {
@@ -29,9 +23,10 @@ if (isset($_POST['update_product'])) {
     $update_p_id = $_POST['update_p_id'];
     $update_name = $_POST['update_name'];
     $update_price = $_POST['update_price'];
+    $update_supplier = $_POST['update_supplier']; // Added supplier
 
-    // Update product name and price in the database
-    mysqli_query($conn, "UPDATE `products` SET name = '$update_name', price = '$update_price' WHERE id = '$update_p_id'") or die('query failed');
+    // Update product name, price, and supplier in the database
+    mysqli_query($conn, "UPDATE `products` SET name = '$update_name', price = '$update_price', supplier = '$update_supplier' WHERE id = '$update_p_id'") or die('query failed');
 
     $update_image = $_FILES['update_image']['name'];
     $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
@@ -57,6 +52,7 @@ if (isset($_POST['add_product'])) {
 
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $price = $_POST['price'];
+    $supplier = $_POST['supplier']; // Added supplier
     $image = $_FILES['image']['name'];
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
@@ -67,7 +63,7 @@ if (isset($_POST['add_product'])) {
     if (mysqli_num_rows($select_product_name) > 0) {
         $message[] = 'PRODUCT NAME ALREADY ADDED';
     } else {
-        $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, price, image) VALUES('$name', '$price', '$image')") or die('query failed');
+        $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, price, image, supplier) VALUES('$name', '$price', '$image', '$supplier')") or die('query failed');
 
         if ($add_product_query) {
             if ($image_size > 2000000) {
@@ -121,6 +117,12 @@ if (isset($_GET['delete'])) {
     <form action="" method="post" enctype="multipart/form-data">
         <input type="text" name="name" class="box" placeholder="ENTER PRODUCT NAME" required>
         <input type="number" min="0" name="price" class="box" placeholder="ENTER PRODUCT PRICE" required>
+        <select name="supplier" class="box" required>
+            <option value="" disabled selected>Select Supplier</option>
+            <?php foreach ($suppliers as $supplier): ?>
+                <option value="<?php echo $supplier['id']; ?>"><?php echo $supplier['name']; ?></option>
+            <?php endforeach; ?>
+        </select>
         <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
 
         <input type="submit" value="add product" name="add_product" class="btn">
@@ -130,24 +132,17 @@ if (isset($_GET['delete'])) {
 
 <!-- product CRUD section ends -->
 
-<!-- Search Products Section -->
-<section class="search-products">
-    <form action="" method="GET">
-        <input type="text" name="search" class="box" placeholder="Search products...">
-        <input type="submit" value="Search" class="btn">
-    </form>
-</section>
-
 <!-- show products  -->
-<section class="show-products">
-    <div class="box-container">
-        <?php
-        $search_query = '';
-        if (isset($_GET['search'])) {
-            $search_query = mysqli_real_escape_string($conn, $_GET['search']);
-        }
 
-        $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE name LIKE '%$search_query%'") or die('query failed');
+<section class="show-products">
+
+    <div class="box-container">
+
+        <?php
+        // Fetching products with supplier names
+        $select_products = mysqli_query($conn, "SELECT p.*, s.name AS supplier_name FROM `products` p LEFT JOIN `suppliers` s ON p.supplier = s.id") or die('query failed');
+
+        // Use the supplier_name instead of supplier ID
         if (mysqli_num_rows($select_products) > 0) {
             while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                 ?>
@@ -155,16 +150,20 @@ if (isset($_GET['delete'])) {
                     <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
                     <div class="name"><?php echo $fetch_products['name']; ?></div>
                     <div class="price">₱<?php echo $fetch_products['price']; ?></div>
+                    <div class="supplier">
+                        <span class="supplier-name"><?php echo $fetch_products['supplier_name']; ?></span>
+                    </div>
                     <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
                     <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>&image=<?php echo $fetch_products['image']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
                 </div>
                 <?php
             }
         } else {
-            echo '<p class="empty">No products found!</p>';
+            echo '<p class="empty">No products added yet!</p>';
         }
         ?>
     </div>
+
 </section>
 
 <!-- Edit Product Form -->
@@ -188,16 +187,23 @@ if (isset($_GET['delete'])) {
                     <!-- Display current product image -->
                     <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
 
-                    <!-- Fields for editing product name, price, and image -->
+                    <!-- Fields for editing product name, price, supplier, and image -->
                     <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Enter product name">
                     <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Enter product price">
+                    <select name="update_supplier" class="box" required>
+                        <option value="" disabled>Select Supplier</option>
+                        <?php foreach ($suppliers as $supplier): ?>
+                            <option value="<?php echo $supplier['id']; ?>" <?php echo (isset($fetch_update['supplier']) && $supplier['id'] == $fetch_update['supplier']) ? 'selected' : ''; ?>><?php echo $supplier['name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
                     <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
 
                     <!-- Submit button to apply changes -->
                     <input type="submit" value="update" name="update_product" class="btn">
 
                     <!-- Cancel button to reset the form -->
-                    <input type="reset" value="cancel" id="close-update" class="option-btn">
+                    <input type="reset" value ="cancel" id="close-update" class="option-btn">
                 </form>
                 <?php
             }

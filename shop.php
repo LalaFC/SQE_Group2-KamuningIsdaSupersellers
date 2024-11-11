@@ -16,29 +16,15 @@ if(isset($_POST['add_to_cart'])){
    $product_price = $_POST['product_price'];
    $product_image = $_POST['product_image'];
    $product_quantity = $_POST['product_quantity'];
-   $supplier = $_POST['supplier'];
 
-   $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id' AND supplier = '$supplier'") or die('query failed');
+   $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
 
    if(mysqli_num_rows($check_cart_numbers) > 0){
       $message[] = 'Already added to cart!';
    }else{
-      mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image, supplier) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image', '$supplier')") or die('query failed');
+      mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
       $message[] = 'Product added to cart!';
    }
-}
-
-// Fetch available suppliers from the suppliers table
-$supplier_query = mysqli_query($conn, "SELECT name FROM `suppliers`") or die('query failed');
-$suppliers = [];
-while($row = mysqli_fetch_assoc($supplier_query)) {
-    $suppliers[] = $row['name'];
-}
-
-// Handle search functionality
-$search_query = '';
-if (isset($_GET['search'])) {
-    $search_query = mysqli_real_escape_string($conn, $_GET['search']);
 }
 
 ?>
@@ -67,50 +53,26 @@ if (isset($_GET['search'])) {
    <p> <a href="home.php">Home</a> / Shop </p>
 </div>
 
-<!-- Search Products Section -->
-<section class="search-products">
-    <form action="" method="GET">
-        <input type="text" name="search" class="box" placeholder="SEARCH PRODUCTS" value="<?php echo htmlspecialchars($search_query); ?>">
-        <input type="submit" value="Search" class="btn">
-    </form>
-</section>
-
 <section class="products">
    <h1 class="title">Latest Products</h1>
 
    <div class="box-container">
-
       <?php  
-         // Fetch products from the database based on search query
-         if ($search_query == '') {
-            $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-         } else {
-            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE name LIKE '%$search_query%'") or die('query failed');
-         }
+      // Fetch products from the database with supplier names
+      $select_products = mysqli_query($conn, "
+         SELECT products.*, suppliers.name AS supplier_name 
+         FROM products 
+         LEFT JOIN suppliers ON products.supplier = suppliers.id
+      ") or die('query failed');
 
-         if(mysqli_num_rows($select_products) > 0){
-            while($fetch_products = mysqli_fetch_assoc($select_products)){
+      if(mysqli_num_rows($select_products) > 0){
+         while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
       <form action="" method="post" class="box">
          <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
          <div class="name"><?php echo $fetch_products['name']; ?></div>
          <div class="price">₱<?php echo $fetch_products['price']; ?></div>
-
-         <!-- Supplier selection dropdown -->
-         <select name="supplier" class="box" required>
-         <option value="">Select Supplier</option>
-         <?php
-         // Fetch all suppliers from the database
-         $select_suppliers = mysqli_query($conn, "SELECT * FROM `suppliers`") or die('query failed');
-         if(mysqli_num_rows($select_suppliers) > 0){
-            while($row = mysqli_fetch_assoc($select_suppliers)){
-               echo '<option value="'.$row['name'].'">'.$row['name'].'</option>';
-            }
-         }else{
-            echo '<option value="">No suppliers available</option>';
-         }
-         ?>
-      </select>
+         <div class="supplier-name"><?php echo $fetch_products['supplier_name']; ?></div>
 
          <input type="number" min="1" name="product_quantity" value="1" class="qty">
          <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
@@ -120,7 +82,7 @@ if (isset($_GET['search'])) {
       </form>
       <?php
             }
-         }else{
+         } else {
             echo '<p class="empty">No products available</p>';
          }
       ?>

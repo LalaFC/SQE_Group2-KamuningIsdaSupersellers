@@ -1058,6 +1058,12 @@ tbody tr:last-child td {
    color:var(--purple);
 }
 
+.supplier-name {
+   font-size: 16px;
+   color: #007BFF;
+   font-weight: 800;
+   margin-left: 5px;
+}
 
 
 

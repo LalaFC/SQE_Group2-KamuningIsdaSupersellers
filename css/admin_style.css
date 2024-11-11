@@ -587,36 +587,17 @@ section{
    vertical-align: middle;
 }
 
-.search-products {
-   text-align: center;
+.supplier {
+   font-size: 16px;
+   color: #333;
 }
 
-.search-products .box {
-   width: 400px;
-   padding: 10px;
-   border: 2px solid #ccc;
-   border-radius: 5px;
-   outline: none;
-   transition: border-color 0.3s;
+.supplier-name {
+   color: #007BFF;
+   font-weight: 800;
+   margin-left: 5px;
 }
 
-.search-products .box:focus {
-   border-color: #007bff;
-}
-
-.search-products .btn {
-   padding: 10px 20px;
-   background-color: (--orange);
-   color: #fff;
-   border: none;
-   border-radius: 5px;
-   cursor: pointer;
-   transition: background-color 0.3s;
-}
-
-.search-products .btn:hover {
-   background-color: #0056b3;
-}
 
 
 
