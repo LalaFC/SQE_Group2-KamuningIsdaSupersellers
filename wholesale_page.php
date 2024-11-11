@@ -22,25 +22,6 @@ if (!$result) {
     die('Query failed: ' . mysqli_error($conn));
 }
 
-// Fetch all suppliers and products for search functionality
-$suppliers = [];
-$products = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $suppliers[$row['supplier_id']] = $row['supplier_name'];
-    $products[$row['product_id']] = $row['product_name'];
-}
-
-// Separate query to get the products linked to each supplier
-$query2 = "SELECT w.supplier_id, w.product_id, p.name AS product_name
-           FROM wholesale w
-           JOIN products p ON w.product_id = p.id";
-$result2 = mysqli_query($conn, $query2);
-
-// Create an associative array to map suppliers to their products
-$supplier_products = [];
-while ($row = mysqli_fetch_assoc($result2)) {
-    $supplier_products[$row['supplier_id']][] = $row['product_name'];
-}
 ?>
 
 <!DOCTYPE html>
@@ -51,140 +32,35 @@ while ($row = mysqli_fetch_assoc($result2)) {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Wholesale Supplier Panel</title>
    <link rel="stylesheet" href="css/style.css">
-   <style>
-     body {
-       font-family: Arial, sans-serif;
-       margin: 0;
-       padding: 0;
-       background-color: #f4f4f9;
-   }
-
-   h2 {
-       text-align: center;
-       margin: 20px 0;
-   }
-
-   .search-container {
-       text-align: center;
-       margin: 20px 0;
-   }
-
-   .search-container input {
-       padding: 10px;
-       width: 60%;
-       max-width: 500px;
-       font-size: 16px;
-       border: 1px solid #ccc;
-       border-radius: 5px;
-   }
-
-   #suppliersList {
-       display: flex;
-       flex-wrap: wrap;
-       justify-content: space-around;
-       margin: 20px;
-   }
-
-   .supplier-box {
-       background-color: white;
-       border: 1px solid #ddd;
-       border-radius: 8px;
-       padding: 20px;
-       margin: 15px;
-       width: 250px;
-       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-       text-align: center;
-       display: flex;
-       flex-direction: column;
-       justify-content: space-between;
-       height: 250px; /* Ensure box has a fixed height */
-   }
-
-   .supplier-box h3 {
-       font-size: 18px;
-       color: #333;
-       margin-bottom: 10px;
-   }
-
-   .product-dropdown {
-       width: 100%;
-       padding: 8px;
-       font-size: 14px;
-       border-radius: 5px;
-       border: 1px solid #ccc;
-       margin-top: auto; /* Push dropdown to the bottom */
-   }
-
-   .supplier-box:hover {
-       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-   }
-   </style>
 </head>
 <body>
 
 <h2>Welcome, <?php echo htmlspecialchars($_SESSION['supplier_name']); ?>!</h2>
-<p style="text-align: center;">Here are the suppliers available for restocking:</p>
+<p>Here are the suppliers available for restocking:</p>
 
-<!-- Search Bar -->
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search by supplier or product..." oninput="searchFunction()">
-</div>
+<a href="logout.php">Logout</a>
 
-<!-- Supplier Boxes -->
-<div id="suppliersList">
-    <?php foreach ($suppliers as $supplier_id => $supplier_name): ?>
-        <div class="supplier-box" id="supplier-<?php echo $supplier_id; ?>">
-            <h3><?php echo htmlspecialchars($supplier_name); ?></h3>
-            <select class="product-dropdown" id="product-dropdown-<?php echo $supplier_id; ?>">
-                <?php
-                if (isset($supplier_products[$supplier_id])) {
-                    foreach ($supplier_products[$supplier_id] as $product_name) {
-                        echo "<option>" . htmlspecialchars($product_name) . "</option>";
-                    }
-                }
-                ?>
-            </select>
-        </div>
-    <?php endforeach; ?>
-</div>
+<!-- Table to display wholesale records -->
+<table border="1">
+    <tr>
+        <th>Supplier ID</th>
+        <th>Supplier Name</th>
+        <th>Product ID</th>
+        <th>Product Name</th>
+    </tr>
 
-<!-- Logout Link -->
-<a href="logout.php" style="display: block; text-align: center; margin-top: 20px;">Logout</a>
-
-<script>
-    // JavaScript function to filter suppliers and products based on search input
-    function searchFunction() {
-        var input = document.getElementById("searchInput").value.toLowerCase();
-        var suppliersList = document.getElementById("suppliersList");
-        var supplierBoxes = suppliersList.getElementsByClassName("supplier-box");
-
-        for (var i = 0; i < supplierBoxes.length; i++) {
-            var supplierBox = supplierBoxes[i];
-            var supplierName = supplierBox.getElementsByTagName("h3")[0].innerText.toLowerCase();
-            var productDropdown = supplierBox.getElementsByClassName("product-dropdown")[0];
-            var options = productDropdown.getElementsByTagName("option");
-
-            // Check if the supplier or any product matches the search query
-            var matchesSupplier = supplierName.includes(input);
-            var matchesProduct = false;
-
-            // Check if any product matches
-            for (var j = 0; j < options.length; j++) {
-                if (options[j].innerText.toLowerCase().includes(input)) {
-                    matchesProduct = true;
-                    break;
-                }
-            }
-
-            // If either supplier or product matches, display the supplier box, otherwise hide it
-            if (matchesSupplier || matchesProduct) {
-                supplierBox.style.display = "";
-            } else {
-                supplierBox.style.display = "none";
-            }
-        }
+    <?php
+    // Fetching and displaying the data from the query result
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['supplier_id']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['supplier_name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['product_id']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['product_name']) . "</td>";
+        echo "</tr>";
     }
-</script>
+    ?>
+</table>
 
 </body>
 </html>
