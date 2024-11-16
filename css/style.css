@@ -359,6 +359,34 @@ section {
    line-height: 1.5;
 }
 
+/* Search Products Section */
+.search-products {
+   text-align: center;
+   margin: 20px 0;
+}
+
+.search-products .box {
+   width: 300px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   margin: 0 auto;
+}
+
+.search-products .btn {
+   background-color: #28a745; /* Green color */
+   color: white;
+   border: none;
+   padding: 10px 15px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.search-products .btn:hover {
+   background-color: #218838; /* Darker green on hover */
+}
+
 .products h1 {
    font-family: 'Cutive Mono', monospace;
    font-size: 10rem;

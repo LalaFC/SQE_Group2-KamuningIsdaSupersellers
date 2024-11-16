@@ -28,7 +28,17 @@ if(isset($_POST['submit'])){
          $_SESSION['user_id'] = $row['id'];
          header('location:home.php');
 
-      }
+      }elseif($row['user_type'] == 'wholesale') {
+
+         $_SESSION['supplier_name'] = $row['name'];
+         $_SESSION['supplier_email'] = $row['email'];
+         $_SESSION['wholesale_id'] = $row['id'];
+         header('location:wholesale_page.php');
+
+}
+
+
+
 
    }else{
       $message[] = 'Incorrect Email or Password!';
